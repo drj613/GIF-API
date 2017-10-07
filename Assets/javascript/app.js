@@ -31,7 +31,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		//Take input from textbox
 		var toAdd=$("#animal-input").val().trim();
-		$("#animal-input").empty();
+		$("#animal-input").val("");
 		console.log(toAdd);
 		//Add it to the array
 		animals.push(toAdd);
