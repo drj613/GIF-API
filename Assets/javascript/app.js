@@ -38,6 +38,7 @@ $(document).ready(function(){
 		//And re-render buttons
 		renderButtons();
 		gifBtnClicked();
+		imgClicked();
 	});
 
 
@@ -45,7 +46,8 @@ $(document).ready(function(){
      //Run display on click
      //Not running on click
      function gifBtnClicked(){
-     	$("body").off("click").on("click", ".gif-btn", function(){
+     	$(".gif-btn").on("click", function() {
+     	// $("body").off("click").on("click", ".gif-btn", function(){
 
 	 		var gifType=$(this).attr("data-name");
 			var queryURL="https://api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
@@ -61,7 +63,7 @@ $(document).ready(function(){
 					//Div to hold the gif
 					var gifDiv = $("<div class='animal col-sm-12 col-md-6 col-lg-4'>");
 					var rating = response.data[i].rating;
-					var ratP = $("<p>").text("Rated "+rating+"<br>");
+					var ratP = $("<p>").text("Rated "+rating);
 					var stillURL = response.data[i].images.fixed_height_still.url;
 					var animatedURL= response.data[i].images.fixed_height.url;
             		var gifImg = $("<img />", {
@@ -72,7 +74,7 @@ $(document).ready(function(){
               			class: "gif"
             		});
 
-					gifDiv.append(rating);
+					gifDiv.append(ratP);
 					gifDiv.append(gifImg);
 
 					$("#body").append(gifDiv);
@@ -83,23 +85,22 @@ $(document).ready(function(){
 
 	 //Unpause and pause gifs on click
 	 function imgClicked() {
-	 $(".gif").on("click", function(){
-	 	var state = $(this).attr("data-state");
+	 	$(".gif").on("click", function(){
+	 		var state = $(this).attr("data-state");
 
-	 	if (state === "still") {
-	 		$(this).attr("src", $(this).attr("data-animate"));
-	 		$(this).attr("data-state", "animate");
-	 	} else {
-	 		$(this).attr("src", $(this).attr("data-still"));
-	 		$(this).attr("data-state", "still");
-	 	}
-
-
+	 		if (state === "still") {
+	 			$(this).attr("src", $(this).attr("data-animate"));
+	 			$(this).attr("data-state", "animate");
+	 		} else {
+	 			$(this).attr("src", $(this).attr("data-still"));
+	 			$(this).attr("data-state", "still");
+	 		}
 	 });}
 
 	 //Display initial buttons
      renderButtons();
      gifBtnClicked();
+     imgClicked();
 
 });
 
