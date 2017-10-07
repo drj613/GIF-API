@@ -37,79 +37,52 @@ $(document).ready(function(){
 
 		//And re-render buttons
 		renderButtons();
+		gifBtnClicked();
 	});
-
-//AJAX call to gif api
-//Throws error
-	// function displayGIFs(){
-		
-	// 	var gifType=$(this).attr("data-name");
-	// 	var queryURL="https://www.api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
-
-	// 	$.ajax({
-	// 		url: queryURL,
-	// 		method: "GET"
-	// 	}).done(function(response) {
-	// 		console.log(response.data);
-	// 		for (var i = 0; i < 10; i++) {
-	// 			//Div to hold the gif
-	// 			var gifDiv = $("<div class='animal col-sm-12 col-md-6 col-lg-4'");
-	// 			var rating = response.data[i].rating;
-	// 			var ratP = $("<p>").text("Rated "+rating);
-	// 			var stillURL = response.data[i].images.fixed_height_still.url;
-	// 			var animatedURL= response.data[i].images.fixed_height.url;
-	// 			var gifImg = $("<img />", {
-	// 				src: stillURL,
-	// 				alt: animatedURL
-	// 			});
-
-	// 			gifDiv.append(rating);
-	// 			gifDiv.append(gifImg);
-	// 		}
-			
-
-	// 	});
-	// }
-
 
 
 
      //Run display on click
      //Not running on click
-	 $(".gif-btn").on("click", function(){
+     function gifBtnClicked(){
+     	$("body").off("click").on("click", ".gif-btn", function(){
 
-	 	var gifType=$(this).attr("data-name");
-		var queryURL="https://www.api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
+	 		var gifType=$(this).attr("data-name");
+			var queryURL="https://api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
+			//Empty body before populating
+			$("#body").empty();
 
-		$.ajax({
-			url: queryURL,
-			method: "GET"
-		}).done(function(response) {
-			console.log(response.data);
-			for (var i = 0; i < 10; i++) {
-				//Div to hold the gif
-				var gifDiv = $("<div class='animal col-sm-12 col-md-6 col-lg-4'");
-				var rating = response.data[i].rating;
-				var ratP = $("<p>").text("Rated "+rating);
-				var stillURL = response.data[i].images.fixed_height_still.url;
-				var animatedURL= response.data[i].images.fixed_height.url;
-				var gifImg = $("<img />", {
-					src: stillURL,
-					data-still: stillURL,
-					data-animate: animatedURL,
-					data-state: "still",
-					class: "gif"
-				});
+			$.ajax({
+				url: queryURL,
+				method: "GET"
+			}).done(function(response) {
+				console.log(response.data);
+				for (var i = 0; i < 10; i++) {
+					//Div to hold the gif
+					var gifDiv = $("<div class='animal col-sm-12 col-md-6 col-lg-4'>");
+					var rating = response.data[i].rating;
+					var ratP = $("<p>").text("Rated "+rating+"<br>");
+					var stillURL = response.data[i].images.fixed_height_still.url;
+					var animatedURL= response.data[i].images.fixed_height.url;
+            		var gifImg = $("<img />", {
+              			src: stillURL,
+              			'data-still': stillURL,
+              			'data-animate': animatedURL,
+              			'data-state': "still",
+              			class: "gif"
+            		});
 
-				gifDiv.append(rating);
-				gifDiv.append(gifImg);
-			}
-			
+					gifDiv.append(rating);
+					gifDiv.append(gifImg);
 
-		});
-	 });
+					$("#body").append(gifDiv);
+				}			
+
+			});
+	 });}
 
 	 //Unpause and pause gifs on click
+	 function imgClicked() {
 	 $(".gif").on("click", function(){
 	 	var state = $(this).attr("data-state");
 
@@ -122,9 +95,11 @@ $(document).ready(function(){
 	 	}
 
 
-	 });
+	 });}
 
 	 //Display initial buttons
      renderButtons();
+     gifBtnClicked();
+
 });
 
