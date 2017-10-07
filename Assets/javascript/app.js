@@ -40,9 +40,45 @@ $(document).ready(function(){
 	});
 
 //AJAX call to gif api
-	function displayGIFs(){
+//Throws error
+	// function displayGIFs(){
 		
-		var gifType=$(this).attr("data-name");
+	// 	var gifType=$(this).attr("data-name");
+	// 	var queryURL="https://www.api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
+
+	// 	$.ajax({
+	// 		url: queryURL,
+	// 		method: "GET"
+	// 	}).done(function(response) {
+	// 		console.log(response.data);
+	// 		for (var i = 0; i < 10; i++) {
+	// 			//Div to hold the gif
+	// 			var gifDiv = $("<div class='animal col-sm-12 col-md-6 col-lg-4'");
+	// 			var rating = response.data[i].rating;
+	// 			var ratP = $("<p>").text("Rated "+rating);
+	// 			var stillURL = response.data[i].images.fixed_height_still.url;
+	// 			var animatedURL= response.data[i].images.fixed_height.url;
+	// 			var gifImg = $("<img />", {
+	// 				src: stillURL,
+	// 				alt: animatedURL
+	// 			});
+
+	// 			gifDiv.append(rating);
+	// 			gifDiv.append(gifImg);
+	// 		}
+			
+
+	// 	});
+	// }
+
+
+
+
+     //Run display on click
+     //Not running on click
+	 $(".gif-btn").on("click", function(){
+
+	 	var gifType=$(this).attr("data-name");
 		var queryURL="https://www.api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
 
 		$.ajax({
@@ -59,7 +95,10 @@ $(document).ready(function(){
 				var animatedURL= response.data[i].images.fixed_height.url;
 				var gifImg = $("<img />", {
 					src: stillURL,
-					alt: animatedURL
+					data-still: stillURL,
+					data-animate: animatedURL,
+					data-state: "still",
+					class: "gif"
 				});
 
 				gifDiv.append(rating);
@@ -68,13 +107,22 @@ $(document).ready(function(){
 			
 
 		});
-	}
+	 });
+
+	 //Unpause and pause gifs on click
+	 $(".gif").on("click", function(){
+	 	var state = $(this).attr("data-state");
+
+	 	if (state === "still") {
+	 		$(this).attr("src", $(this).attr("data-animate"));
+	 		$(this).attr("data-state", "animate");
+	 	} else {
+	 		$(this).attr("src", $(this).attr("data-still"));
+	 		$(this).attr("data-state", "still");
+	 	}
 
 
-
-
-     //Run display on click
-	 $(".gif-btn").on("click", displayGIFs());
+	 });
 
 	 //Display initial buttons
      renderButtons();
