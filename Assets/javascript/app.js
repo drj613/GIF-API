@@ -31,6 +31,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		//Take input from textbox
 		var toAdd=$("#animal-input").val().trim();
+		$("#animal-input").empty();
 		console.log(toAdd);
 		//Add it to the array
 		animals.push(toAdd);
@@ -47,7 +48,6 @@ $(document).ready(function(){
      //Not running on click
      function gifBtnClicked(){
      	$(".gif-btn").on("click", function() {
-     	// $("body").off("click").on("click", ".gif-btn", function(){
 
 	 		var gifType=$(this).attr("data-name");
 			var queryURL="https://api.giphy.com/v1/gifs/search?q="+gifType+"&api_key=dc6zaTOxFJmzC&limit=10";
@@ -85,7 +85,8 @@ $(document).ready(function(){
 
 	 //Unpause and pause gifs on click
 	 function imgClicked() {
-	 	$(".gif").on("click", function(){
+		 $("#body").on("click", ".gif", function (){
+	 	// DIDN'T WORK   ---   $(".gif").on("click", function(){ 
 	 		var state = $(this).attr("data-state");
 
 	 		if (state === "still") {
